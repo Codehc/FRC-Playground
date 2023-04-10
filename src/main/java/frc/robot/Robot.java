@@ -23,20 +23,6 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
   private Command m_autonomousCommand;
 
-  // Test a
-  private SwerveModuleConstants c = new SwerveModuleConstants(5, 6, 7, false, true, 16, 4, 0.25, 0, 0, 0, 0.01, 0, 0);
-  private SwerveModuleConstants c2 = new SwerveModuleConstants(9, 8, 10, false, true, 16, 4, 0.25, 0, 0, 0, 0.01, 0, 0);
-  private SwerveModuleConstants c3 = new SwerveModuleConstants(12, 11, 13, false, true, 16, 4, 0.25, 0, 0, 0, 0.01, 0, 0);
-  private SwerveModuleConstants c4 = new SwerveModuleConstants(14, 15, 16, false, true, 16, 4, 0.25, 0, 0, 0, 0.01, 0, 0);
-
-  // Test b
-  private SwerveModule fl;
-  private SwerveModule fr;
-  private SwerveModule bl;
-  private SwerveModule br;
-
-  private CommandXboxController controller;
-
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -58,33 +44,11 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().onCommandFinish((Command command) -> {
       DataLogManager.log(command.getName() + " is finishing on its own.");
     });
-
-    controller = new CommandXboxController(0);
-
-    // Test b
-    fl = new SwerveModule(c);
-    fr = new SwerveModule(c2);
-    bl = new SwerveModule(c3);
-    br = new SwerveModule(c4);
   }
 
   @Override 
   public void robotPeriodic() {
     CommandScheduler.getInstance().run();
-
-    fl.tick();
-    fr.tick();
-    bl.tick();
-    br.tick();
-
-    SmartDashboard.putNumber("LiveFl", fl.getAzimuth());
-    SmartDashboard.putNumber("LiveFr", fr.getAzimuth());
-    SmartDashboard.putNumber("LiveBl", bl.getAzimuth());
-    SmartDashboard.putNumber("LiveBr", br.getAzimuth());
-    SmartDashboard.putNumber("LiveFlA", fl.getAzimuthAbsolute());
-    SmartDashboard.putNumber("LiveFrA", fr.getAzimuthAbsolute());
-    SmartDashboard.putNumber("LiveBlA", bl.getAzimuthAbsolute());
-    SmartDashboard.putNumber("LiveBrA", br.getAzimuthAbsolute());
   }
 
   @Override
@@ -111,15 +75,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    SwerveModuleState state = new SwerveModuleState();
-    double x = controller.getLeftX();
-    double y = controller.getLeftY();
-    state.speedMetersPerSecond = Math.sqrt(y * y + x * x) * 3;
-    state.angle = Rotation2d.fromDegrees(x * 90);
-    fl.setState(state);
-    fr.setState(state);
-    bl.setState(state);
-    br.setState(state);
   }
 
   @Override
